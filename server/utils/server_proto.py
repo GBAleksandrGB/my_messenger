@@ -2,8 +2,8 @@ from asyncio import Protocol
 from hashlib import pbkdf2_hmac
 from binascii import hexlify
 
-from server.utils.server_messages import JimServerMessage
-from server.utils.mixins import ConvertMixin, DbInterfaceMixin
+from utils.server_messages import JimServerMessage
+from utils.mixins import ConvertMixin, DbInterfaceMixin
 
 
 class ChatServerProtocol(Protocol, ConvertMixin, DbInterfaceMixin):

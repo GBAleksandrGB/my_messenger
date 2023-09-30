@@ -4,10 +4,10 @@ from sqlalchemy import LargeBinary, ForeignKey, Column, Integer, String, \
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
 
-Base = declarative_base()
+CBase = declarative_base()
 
 
-class Client(Base):
+class Client(CBase):
     """Таблица с клиентами"""
     __tablename__ = 'client'
 
@@ -18,7 +18,7 @@ class Client(Base):
     online_status = Column(Boolean(), default=False)
 
 
-class History(Base):
+class History(CBase):
     """Таблица с историей входов клиентов"""
     __tablename__ = 'history'
 

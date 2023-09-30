@@ -20,13 +20,13 @@ class ConsoleServerApp:
 
         # Each client will create a new protocol instance
         self.ins = ChatServerProtocol(self.db_path, connections, users)
-
         coro = loop.create_server(lambda: self.ins, self.args["addr"],
                                   self.args["port"])
         server = loop.run_until_complete(coro)
 
         # Serve requests until Ctrl+C
         print('Serving on {}:{}'.format(*server.sockets[0].getsockname()))
+
         try:
             loop.run_forever()
         except KeyboardInterrupt:
@@ -51,3 +51,7 @@ def parse_and_run():
         # start consoles server
         a = ConsoleServerApp(args, DB_PATH)
         a.main()
+
+
+if __name__ == "__main__":
+    parse_and_run()
