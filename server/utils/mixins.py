@@ -37,21 +37,21 @@ class ConvertMixin:
             raise TypeError
 
 
-def _bytes_to_dict(self, msg_bytes):
-    """
-    Получение словаря из байтов
-    :param msg_bytes: сообщение в виде байтов
-    :return: словарь сообщения
-    """
-    # Если переданы байты
-    if isinstance(msg_bytes, bytes):
-        jmessage = msg_bytes.decode(ENCODING)  # Декодируем
-        message = loads(jmessage)  # Из json делаем словарь
+    def _bytes_to_dict(self, msg_bytes):
+        """
+        Получение словаря из байтов
+        :param msg_bytes: сообщение в виде байтов
+        :return: словарь сообщения
+        """
+        # Если переданы байты
+        if isinstance(msg_bytes, bytes):
+            jmessage = msg_bytes.decode(ENCODING)  # Декодируем
+            message = loads(jmessage)  # Из json делаем словарь
 
-        # Если там был словарь
-        if isinstance(message, dict):
-            return message  # Возвращаем сообщение
+            # Если там был словарь
+            if isinstance(message, dict):
+                return message  # Возвращаем сообщение
+            else:
+                raise TypeError  # Нам прислали неверный тип
         else:
-            raise TypeError  # Нам прислали неверный тип
-    else:
-        raise TypeError  # Передан неверный тип
+            raise TypeError  # Передан неверный тип
