@@ -1,9 +1,13 @@
 """файл для запуска клиентского приложения в цикле"""
 from argparse import ArgumentParser
-from asyncio import ensure_future, get_event_loop, run, create_task
+from asyncio import get_event_loop, set_event_loop
+from PyQt6.QtWidgets import QDialog, QApplication
+from sys import argv
 
+from client.ui.windows import LoginWindow
 from client.utils.client_proto import ChatClientProtocol, ClientAuth
 from client.client_config import DB_PATH, PORT
+from new_quamash import QEventLoop
 
 
 class ConsoleClientApp:
@@ -29,6 +33,7 @@ class ConsoleClientApp:
             auth.username = usr
             auth.password = passwrd
             is_auth = auth.authenticate()
+
             if is_auth:
                 break
             else:
@@ -68,6 +73,28 @@ class ConsoleClientApp:
             loop.close()
 
 
+class GuiClientApp:
+    """GUI Client"""
+    def __init__(self, parsed_args, db_path):
+        self.args = parsed_args
+        self.db_path = db_path
+        self.ins = None
+
+    def main(self):
+
+        # create event loop
+        app = QApplication(argv)
+        loop = QEventLoop(app)
+        set_event_loop(loop)  # NEW must set the event loop
+
+        # authentication process
+        login_wnd = LoginWindow()
+
+        if login_wnd.exec() == QDialog.Accepted:
+            pass
+            
+
+
 def parse_and_run():
     def parse_args():
         parser = ArgumentParser(description="Client settings")
@@ -83,6 +110,10 @@ def parse_and_run():
     if args['nogui']:
         # start consoles server
         a = ConsoleClientApp(args, DB_PATH)
+        a.main()
+    else:
+        # start GUI client
+        a = GuiClientApp(args, DB_PATH)
         a.main()
 
 
