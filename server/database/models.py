@@ -1,6 +1,6 @@
 from datetime import datetime as dt
 from sqlalchemy import LargeBinary, ForeignKey, Column, Integer, String, \
-    DateTime, Boolean
+    DateTime, Boolean, Unicode, UniqueConstraint
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
 
@@ -28,3 +28,32 @@ class History(CBase):
     client_id = Column(Integer(), ForeignKey('client.id'))
     client = relationship('Client', 
                           backref=backref('history', order_by=client_id))
+
+
+class Contacts(CBase):
+    """Таблица с контактами(друзьями) клиента"""
+
+    __tablename__ = 'contacts'
+    __table_args__ = (
+        UniqueConstraint('client_id', 'contact_id', 
+						name='unique_contact'),)
+
+    id = Column(Integer(), primary_key=True)
+    client_id = Column(Integer(), ForeignKey('client.id'))
+    contact_id = Column(Integer(), ForeignKey('client.id'))
+    client = relationship("Client", foreign_keys=[client_id])
+    contact = relationship("Client", foreign_keys=[contact_id])
+
+
+class Messages(CBase):
+    """История сообщений клиента"""
+
+    __tablename__ = 'messages'
+
+    id = Column(Integer(), primary_key=True)
+    client_id = Column(Integer(), ForeignKey('client.id'))
+    contact_id = Column(Integer(), ForeignKey('client.id'))
+    time = Column(DateTime(), default=dt.now(), nullable=False)
+    client = relationship("Client", foreign_keys=[client_id])
+    contact = relationship("Client", foreign_keys=[contact_id])
+    message = Column(Unicode())

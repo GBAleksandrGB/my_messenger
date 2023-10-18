@@ -3,7 +3,9 @@ from asyncio import get_event_loop, set_event_loop
 from PyQt6.QtWidgets import QApplication
 from sys import argv
 
+# commit from https://github.com/harvimt/quamash/tree/ed9049e8c5c760aa6e0894f424d533d15094bac0/quamash
 from new_quamash import QEventLoop
+
 from server.server_config import DB_PATH, PORT
 from server.utils.server_proto import ChatServerProtocol
 from server.ui.windows import ServerMonitorWindow
@@ -61,7 +63,8 @@ class GuiServerApp:
         loop = QEventLoop(app)
         set_event_loop(loop)  # NEW must set the event loop
         # server_instance=self.ins, parsed_args=self.args
-        wnd = ServerMonitorWindow(None)
+        wnd = ServerMonitorWindow(server_instance=self.ins, 
+                                  parsed_args=self.args)
         wnd.show()
 
         with loop:

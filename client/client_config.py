@@ -1,5 +1,6 @@
 # cross platform home folder
 import os
+
 home = os.path.dirname(os.path.abspath(__file__))
 
 # constants

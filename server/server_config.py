@@ -1,6 +1,8 @@
 # cross platform home folder
-from pathlib import Path
-home = str(Path.home())
+import os
+
+home = os.path.dirname(os.path.abspath(__file__))
+# home = str(Path.home())
 
 # constants
 PORT = 14908
