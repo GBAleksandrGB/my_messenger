@@ -1,1 +1,6 @@
-/venv
+venv
+__pycache__
+.vscode
+.env
+*.db
+new_quamash
